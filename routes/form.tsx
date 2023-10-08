@@ -27,8 +27,8 @@ export default function Form() {
                   <input
                     type="text"
                     name="username"
-                    id="username"
-                    autoComplete="username"
+                    id="from"
+                    autoComplete="from"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Your name"
                   />
@@ -45,8 +45,8 @@ export default function Form() {
               </label>
               <div className="mt-2 sm:col-span-2 sm:mt-0">
                 <textarea
-                  id="about"
-                  name="about"
+                  id="text"
+                  name="text"
                   rows={3}
                   className="block w-full max-w-2xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   defaultValue={""}
@@ -71,8 +71,8 @@ export default function Form() {
                       >
                         <span>Upload a Photo</span>
                         <input
-                          id="file-upload"
-                          name="file-upload"
+                          id="image"
+                          name="image-upload"
                           type="file"
                           className="sr-only"
                         />
