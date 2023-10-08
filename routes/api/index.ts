@@ -1,10 +1,10 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
 import {
-  object,
-  string,
   minLength,
+  object,
   optional,
   parse,
+  string,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 
 const db = await Deno.openKv();
@@ -13,7 +13,7 @@ type MessageIn = {
   from: string;
   imagePointer?: string;
 };
-type MessageOut = MessageIn & { id: string; timestamp: number };
+export type MessageOut = MessageIn & { id: string; timestamp: number };
 
 const PREFIX = "messages";
 
