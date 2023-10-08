@@ -1,4 +1,5 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
+import { instantiate, Client } from "../../lib/rs_lib.generated.js";
 import {
   minLength,
   object,
@@ -7,6 +8,15 @@ import {
   string,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
 
+await instantiate();
+const client = Client.new(
+  Deno.env.get("S3_URL")!,
+  Deno.env.get("S3_REGION")!,
+  Deno.env.get("S3_REGION")!,
+  Deno.env.get("S3_PUBLIC_KEY")!,
+  Deno.env.get("S3_PRIVATE_KEY")!,
+  Deno.env.get("S3_HOST_REWRITE"),
+);
 const db = await Deno.openKv();
 type MessageIn = {
   text: string;
@@ -57,17 +67,28 @@ export const handler: Handlers = {
   POST: async (req) => {
     try {
       const body = await req.formData();
-      const validated = parse(MessageSchema, body);
+      const validated = parse(MessageSchema, {
+        text: body.get("text"),
+        from: body.get("from"),
+      });
       console.log({ validated });
       const image = body.get("image");
-      let imagePointer = undefined;
+      let imagePointer: string | undefined = undefined;
       if (image instanceof File) {
         // todo upload images to s3
         console.log({ image });
+        const id = crypto.randomUUID();
+        const obj = client.sign_upload(id);
+        await fetch(obj, {
+          method: "PUT",
+          headers: { "Content-Type": image.type },
+        });
+        imagePointer = id;
       }
       await writeMessage({ ...validated, imagePointer });
       return new Response("OK");
     } catch (e) {
+      console.error(e);
       return new Response(e.message, { status: 400 });
     }
   },
