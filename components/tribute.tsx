@@ -3,7 +3,7 @@ import { MessageOut } from "../routes/api/index.ts";
 export default function Tribute(props: { message: MessageOut }) {
   const { text, from } = props.message;
   return (
-    <div class="bg-yellow-100 rounded flex-grow">
+    <div class="bg-white rounded flex-grow">
       <div class="flex flex-shrink-0 p-4 pb-0">
         <a href="#" class="flex-shrink-0 group block">
           <div class="flex items-center">
