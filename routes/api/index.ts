@@ -130,10 +130,16 @@ export const handler: Handlers = {
         imagePointer = id;
       }
       await writeMessage({ ...validated, imagePointer });
-      return new Response("Found", { headers: { Location: "/" } });
+      return new Response(null, {
+        headers: { Location: "/#tributes" },
+        status: 302,
+      });
     } catch (e) {
       console.error(e);
-      return new Response(e.message, { status: 400 });
+      return new Response(null, {
+        status: 302,
+        headers: { Location: "/?invalid=true#form" },
+      });
     }
   },
 };

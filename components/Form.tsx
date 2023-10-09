@@ -1,6 +1,12 @@
-export default function Form() {
+export default function Form(props: { invalid?: boolean }) {
   return (
-    <form method="POST" action="/api" encType="multipart/form-data" class="flex-grow">
+    <form
+      method="POST"
+      action="/api"
+      encType="multipart/form-data"
+      class="flex-grow"
+      id="form"
+    >
       <div className="space-y-12 sm:space-y-16 p-4">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -102,6 +108,14 @@ export default function Form() {
           Post
         </button>
       </div>
+      {props.invalid && (
+        <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div class="text-red-500">
+            Each message must be at least 10 characters long and your name
+            cannot be blank
+          </div>
+        </div>
+      )}
     </form>
   );
 }
