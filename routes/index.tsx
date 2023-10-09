@@ -12,40 +12,41 @@ export default async function Home(req: Request, ctx: HandlerContext) {
 
   return (
     <div class="bg-white">
-      <div class="mx-auto max-w-7xl py-10  sm:py-10 lg:px-4">
-        <div class="mx-auto max-w-2xl px-4 lg:max-w-none">
-          <div class="max-w-3xl">
-            <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Remembering Curtis Samlal
-            </p>
-          </div>
+      <div class="mx-auto max-w-7xl py-10  sm:py-10 lg:px-8 px-4">
+        <div class="flex min-h-screen items-center">
+          <div class="mx-auto max-w-2xl lg:max-w-none">
+            <div class="max-w-3xl">
+              <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Remembering Curtis Samlal
+              </p>
+            </div>
 
-          <div class="mt-1 space-y-16 border-t border-gray-200 pt-1 sm:mt-5 sm:pt-5">
-            <div class="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8">
-              <div class="flex-auto lg:col-span-5 xl:col-span-6">
-                <div class="aspect-h-2 aspect-w-6 overflow-hidden rounded-lg bg-gray-100">
-                  <img
-                    src="landing_pic.jpg"
-                    alt="Printed photo of bag being tossed into the sky on top of grass."
-                    class="object-cover object-center"
-                  />
+            <div class="mt-1 space-y-16 border-t border-gray-200 pt-1 sm:mt-5 sm:pt-5">
+              <div class="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8">
+                <div class="flex-auto lg:col-span-5 xl:col-span-6">
+                  <div class="aspect-h-2 aspect-w-6 overflow-hidden rounded-lg bg-gray-100">
+                    <img
+                      src="landing_pic.jpg"
+                      alt="Printed photo of bag being tossed into the sky on top of grass."
+                      class="object-cover object-center"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="mt-6 lg:col-span-6 lg:mt-0 xl:col-span-6">
-                <h3 class="text-lg font-medium text-gray-900">Curtis Samlal</h3>
-                <p class="mt-2 text-sm text-gray-500">{text}</p>
+                <div class="mt-6 lg:col-span-6 lg:mt-0 xl:col-span-6">
+                  <h3 class="text-lg font-medium text-gray-900">
+                    Curtis Samlal
+                  </h3>
+                  <p class="mt-2 text-sm text-gray-500">{text}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="col-span-12 min-h-screen flex justify-center items-center">
-        <div class="p-4 rounded bg-white">
+        <div class="min-h-screen flex items-center">
           <Form />
         </div>
+        <Tributes tributes={tributes} />
       </div>
-      <Tributes tributes={tributes} />
     </div>
   );
 }

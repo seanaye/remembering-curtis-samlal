@@ -1,6 +1,6 @@
 export default function Form() {
   return (
-    <form method="POST" action="/api" encType="multipart/form-data">
+    <form method="POST" action="/api" encType="multipart/form-data" class="flex-grow">
       <div className="space-y-12 sm:space-y-16 p-4">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
