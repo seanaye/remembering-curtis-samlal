@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals";
-import Form from "./form.tsx";
+import Form from "../components/Form.tsx";
 import Tribute from "../components/tribute.tsx";
 
 const text =
@@ -28,12 +28,8 @@ export default function Home() {
                 </div>
               </div>
               <div class="mt-6 lg:col-span-6 lg:mt-0 xl:col-span-6">
-                <h3 class="text-lg font-medium text-gray-900">
-                  Curtis Samlal
-                </h3>
-                <p class="mt-2 text-sm text-gray-500">
-                  {text}
-                </p>
+                <h3 class="text-lg font-medium text-gray-900">Curtis Samlal</h3>
+                <p class="mt-2 text-sm text-gray-500">{text}</p>
               </div>
             </div>
           </div>
