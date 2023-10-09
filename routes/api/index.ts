@@ -1,4 +1,4 @@
-import { HandlerContext, Handlers } from "$fresh/server.ts";
+import { Handlers } from "$fresh/server.ts";
 import { instantiate, Client } from "../../lib/rs_lib.generated.js";
 import {
   minLength,
@@ -14,7 +14,7 @@ const client = Client.new(
   Deno.env.get("S3_REGION")!,
   Deno.env.get("S3_PUBLIC_KEY")!,
   Deno.env.get("S3_PRIVATE_KEY")!,
-  Deno.env.get("S3_HOST_REWRITE")
+  undefined
 );
 const db = await Deno.openKv();
 type MessageIn = {
@@ -42,34 +42,71 @@ const MessageSchema = object({
   from: string([minLength(1)]),
 });
 
-async function* listMessages(): AsyncGenerator<MessageOut> {
-  const res = db.list<MessageIn>({ prefix: [PREFIX] });
+function transformImagePointer(id?: string): string | undefined {
+  if (!id) return undefined;
+  return client.sign_read(id);
+}
+
+async function* listMessages(limit?: number): AsyncGenerator<MessageOut> {
+  const res = db.list<MessageIn>({ prefix: [PREFIX] }, { limit });
   // const out: Array<MessageOut> = [];
   for await (const entry of res) {
     yield {
+      ...entry.value,
       id: entry.key[2] as string,
       timestamp: entry.key[1] as number,
-      ...entry.value,
+      imagePointer: transformImagePointer(entry.value.imagePointer),
     };
   }
   // return out.sort(() => Math.random() - 0.5);
 }
 
-async function listMessageArray(): Promise<Array<MessageOut>> {
+export async function listMessageArray(
+  limit?: number,
+): Promise<Array<MessageOut>> {
   const out: Array<MessageOut> = [];
-  for await (const msg of listMessages()) {
+  for await (const msg of listMessages(limit)) {
     out.push(msg);
   }
   return out.sort(() => Math.random() - 0.5);
 }
 
+const template = (s: string) => `data: ${s}`;
+
+function createStreamResponse() {
+  let canceled = false;
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const msg of listMessages()) {
+        if (canceled) {
+          break;
+        }
+        controller.enqueue(template(JSON.stringify(msg)));
+        await new Promise((r) => setTimeout(r, 3500));
+      }
+    },
+    cancel() {
+      canceled = true;
+    },
+  });
+  return new Response(stream, {
+    headers: { "Content-Type": "text/event-stream" },
+  });
+}
+
+async function createListResponse() {
+  const list = await listMessageArray();
+  const body = JSON.stringify({ messages: list });
+  return new Response(body, {
+    headers: { "Content-Type": "application/json " },
+  });
+}
+
 export const handler: Handlers = {
-  GET: async (req) => {
-    const list = await listMessages();
-    const body = JSON.stringify({ messages: list });
-    return new Response(body, {
-      headers: { "Content-Type": "application/json " },
-    });
+  GET: (req) => {
+    return new URL(req.url).searchParams.get("stream") === "true"
+      ? createStreamResponse()
+      : createListResponse();
   },
   POST: async (req) => {
     try {
@@ -89,11 +126,11 @@ export const handler: Handlers = {
           headers: { "Content-Type": image.type },
           body: image,
         });
-        console.log({ out })
+        console.log({ out });
         imagePointer = id;
       }
       await writeMessage({ ...validated, imagePointer });
-      return new Response("OK");
+      return new Response("Found", { headers: { Location: "/" } });
     } catch (e) {
       console.error(e);
       return new Response(e.message, { status: 400 });
