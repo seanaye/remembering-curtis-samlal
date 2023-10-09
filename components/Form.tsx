@@ -22,7 +22,8 @@ export default function Form() {
               </label>
               <div className="mt-2 sm:col-span-2 sm:mt-0">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
+                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
+                  </span>
                   <input
                     type="text"
                     name="from"
@@ -41,6 +42,9 @@ export default function Form() {
                 className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
               >
                 Message
+                <p className="mt-1 max-w-2xl text-xs leading-6 text-gray-400">
+                  *At least ten characters
+                </p>
               </label>
               <div className="mt-2 sm:col-span-2 sm:mt-0">
                 <textarea
