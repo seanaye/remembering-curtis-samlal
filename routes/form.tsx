@@ -1,6 +1,6 @@
 export default function Form() {
   return (
-    <form method="POST" action="/api">
+    <form method="POST" action="/api" encType="multipart/form-data">
       <div className="space-y-12 sm:space-y-16 p-4">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -22,8 +22,7 @@ export default function Form() {
               </label>
               <div className="mt-2 sm:col-span-2 sm:mt-0">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-                  </span>
+                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
                   <input
                     type="text"
                     name="from"
@@ -74,7 +73,7 @@ export default function Form() {
                           id="image"
                           name="image"
                           type="file"
-                          className="sr-only"
+                          accept="image/*"
                         />
                       </label>
                       <p className="pl-1">or drag and drop</p>

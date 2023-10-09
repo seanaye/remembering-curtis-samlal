@@ -3,7 +3,6 @@ import { instantiate, Client } from "../../lib/rs_lib.generated.js";
 import {
   minLength,
   object,
-  optional,
   parse,
   string,
 } from "https://deno.land/x/valibot@v0.18.0/mod.ts";
@@ -11,11 +10,11 @@ import {
 await instantiate();
 const client = Client.new(
   Deno.env.get("S3_URL")!,
-  Deno.env.get("S3_REGION")!,
+  Deno.env.get("S3_BUCKET")!,
   Deno.env.get("S3_REGION")!,
   Deno.env.get("S3_PUBLIC_KEY")!,
   Deno.env.get("S3_PRIVATE_KEY")!,
-  Deno.env.get("S3_HOST_REWRITE"),
+  Deno.env.get("S3_HOST_REWRITE")
 );
 const db = await Deno.openKv();
 type MessageIn = {
@@ -43,21 +42,29 @@ const MessageSchema = object({
   from: string([minLength(1)]),
 });
 
-async function listMessages(): Promise<Array<MessageOut>> {
+async function* listMessages(): AsyncGenerator<MessageOut> {
   const res = db.list<MessageIn>({ prefix: [PREFIX] });
-  const out: Array<MessageOut> = [];
+  // const out: Array<MessageOut> = [];
   for await (const entry of res) {
-    out.push({
+    yield {
       id: entry.key[2] as string,
       timestamp: entry.key[1] as number,
       ...entry.value,
-    });
+    };
+  }
+  // return out.sort(() => Math.random() - 0.5);
+}
+
+async function listMessageArray(): Promise<Array<MessageOut>> {
+  const out: Array<MessageOut> = [];
+  for await (const msg of listMessages()) {
+    out.push(msg);
   }
   return out.sort(() => Math.random() - 0.5);
 }
 
 export const handler: Handlers = {
-  GET: async () => {
+  GET: async (req) => {
     const list = await listMessages();
     const body = JSON.stringify({ messages: list });
     return new Response(body, {
@@ -71,18 +78,18 @@ export const handler: Handlers = {
         text: body.get("text"),
         from: body.get("from"),
       });
-      console.log({ validated });
       const image = body.get("image");
       let imagePointer: string | undefined = undefined;
       if (image instanceof File) {
         // todo upload images to s3
-        console.log({ image });
         const id = crypto.randomUUID();
         const obj = client.sign_upload(id);
-        await fetch(obj, {
+        const out = await fetch(obj, {
           method: "PUT",
           headers: { "Content-Type": image.type },
+          body: image,
         });
+        console.log({ out })
         imagePointer = id;
       }
       await writeMessage({ ...validated, imagePointer });
