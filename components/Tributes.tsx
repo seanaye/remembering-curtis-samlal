@@ -15,10 +15,8 @@ export default function Tributes(props: { tributes: Array<MessageOut> }) {
     <div class="col-span-12 min-h-screen px-6" id="tributes">
       <div class="grid grid-flow-row auto-rows-max gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start">
         {d.map((g) => (
-          <div class="grid gap-6">
-            {g.map((t) => (
-              <Tribute message={t} />
-            ))}
+          <div class="grid gap-6 w-full">
+            {g.map((t) => <Tribute message={t} />)}
           </div>
         ))}
       </div>

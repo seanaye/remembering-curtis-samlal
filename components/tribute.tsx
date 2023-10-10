@@ -3,7 +3,7 @@ import { MessageOut } from "../routes/api/index.ts";
 export default function Tribute(props: { message: MessageOut }) {
   const { text, from } = props.message;
   return (
-    <div class="bg-white border-2 border-orange-300 rounded flex-grow">
+    <div class="bg-white border border-orange-300 rounded max-w-full">
       <div class="flex flex-shrink-0 p-4 pb-0">
         <a href="#" class="flex-shrink-0 group block">
           <div class="flex items-center">
@@ -14,13 +14,13 @@ export default function Tribute(props: { message: MessageOut }) {
         </a>
       </div>
       <div class="flex-col gap-x-4 flex-shrink-0 p-4 pb-4">
-        <p class="text-base width-auto font-medium text-black flex-shrink pb-2">
+        <p class="text-base width-auto font-medium text-black flex-shrink pb-2 break-all">
           {text}
         </p>
         {props.message.imagePointer && (
           <img
             src={props.message.imagePointer}
-            class="w-full h-24 object-contain"
+            class="w-full h-full object-cover"
           />
         )}
       </div>
