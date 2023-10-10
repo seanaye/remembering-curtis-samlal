@@ -14,7 +14,7 @@ const client = Client.new(
   Deno.env.get("S3_REGION")!,
   Deno.env.get("S3_PUBLIC_KEY")!,
   Deno.env.get("S3_PRIVATE_KEY")!,
-  undefined,
+  Deno.env.get("S3_HOST_REWRITE"),
 );
 const db = await Deno.openKv();
 type MessageIn = {
