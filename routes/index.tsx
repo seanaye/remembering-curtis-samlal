@@ -14,9 +14,9 @@ export default async function Home(req: Request, ctx: HandlerContext) {
 
   return (
     <div class="bg-white">
-      <div class="mx-auto max-w-7xl py-10  sm:py-10 lg:px-8 px-4">
-        <div class="flex min-h-screen items-center">
-          <div class="mx-auto max-w-2xl lg:max-w-none">
+      <div class="mx-auto max-w-7xl py-10  sm:py-10 ">
+        <div class="flex min-h-screen items-center px-10">
+          <div class="mx-auto max-w-1xl lg:max-w-none">
             <div class="max-w-3xl">
               <p class="mt-2 text-3xl font-bold tracking-tight text-orange-400 sm:text-4xl">
                 Remembering & Celebrating Curtis Samlal
@@ -43,10 +43,17 @@ export default async function Home(req: Request, ctx: HandlerContext) {
             </div>
           </div>
         </div>
-        <div class="min-h-screen flex items-center">
-          <Form invalid={invalidForm} />
+        <div class="min-h-screen mt-6">
+          <div
+            class="min-h-screen flex items-center justify-center bg-cover bg-no-repeat rounded absolute left-0 right-0"
+            style="background-image: url('f2.jpg')"
+          >
+            <Form invalid={invalidForm} />
+          </div>
         </div>
-        <Tributes tributes={tributes} />
+        <div class="mt-6 px-10">
+          <Tributes tributes={tributes} />
+        </div>
       </div>
     </div>
   );

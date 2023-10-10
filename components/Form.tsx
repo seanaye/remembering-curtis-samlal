@@ -4,10 +4,9 @@ export default function Form(props: { invalid?: boolean }) {
       method="POST"
       action="/api"
       encType="multipart/form-data"
-      class="flex-grow"
       id="form"
     >
-      <div className="p-4 border border-orange-300 rounded">
+      <div className="p-4 bg-white border border-orange-300 rounded">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Tribute Message
