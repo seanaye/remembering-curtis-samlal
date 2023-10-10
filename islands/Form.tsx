@@ -1,4 +1,7 @@
+import { useState } from "preact/hooks";
+
 export default function Form(props: { invalid?: boolean }) {
+  const [fileName, setFileName] = useState<null | string>(null);
   return (
     <form
       method="POST"
@@ -28,8 +31,7 @@ export default function Form(props: { invalid?: boolean }) {
               </label>
               <div className="mt-2 sm:col-span-2 sm:mt-0">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 sm:max-w-md">
-                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-                  </span>
+                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
                   <input
                     type="text"
                     name="from"
@@ -78,8 +80,13 @@ export default function Form(props: { invalid?: boolean }) {
                         htmlFor="image"
                         className="relative cursor-pointer rounded-md bg-white font-semibold text-yellow-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-yellow-600 focus-within:ring-offset-2 hover:text-yellow-500"
                       >
-                        <span>Upload a Photo</span>
+                        <span>{fileName || "Upload a Photo"}</span>
                         <input
+                          onChange={(e) => {
+                            const data =
+                              e.currentTarget.files?.item(0)?.name ?? null;
+                            setFileName(data);
+                          }}
                           id="image"
                           name="image"
                           type="file"
@@ -87,7 +94,7 @@ export default function Form(props: { invalid?: boolean }) {
                           className="sr-only"
                         />
                       </label>
-                      <p className="pl-1">or drag and drop</p>
+                      {!fileName && <p className="pl-1">or drag and drop</p>}
                     </div>
                     <p className="text-xs leading-5 text-gray-600">
                       PNG, JPG, GIF up to 10MB
