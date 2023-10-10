@@ -7,7 +7,7 @@ export default function Form(props: { invalid?: boolean }) {
       class="flex-grow"
       id="form"
     >
-      <div className="space-y-12 sm:space-y-16 p-4 bg-white rounded">
+      <div className="space-y-12 sm:space-y-16 p-4 border-2 border-orange-300 rounded">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Tribute Message

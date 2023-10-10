@@ -13,13 +13,13 @@ export default async function Home(req: Request, ctx: HandlerContext) {
   const tributes = await listMessageArray(100);
 
   return (
-    <div class="bg-gradient-to-b from-orange-50 via-red-100 to-zinc-100">
+    <div class="bg-white">
       <div class="mx-auto max-w-7xl py-10  sm:py-10 lg:px-8 px-4">
         <div class="flex min-h-screen items-center">
           <div class="mx-auto max-w-2xl lg:max-w-none">
             <div class="max-w-3xl">
-              <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Remembering Curtis Samlal
+              <p class="mt-2 text-3xl font-bold tracking-tight text-orange-400 sm:text-4xl">
+                Remembering & Celebrating Curtis Samlal
               </p>
             </div>
 
@@ -35,7 +35,7 @@ export default async function Home(req: Request, ctx: HandlerContext) {
                   </div>
                 </div>
                 <div class="mt-6 lg:col-span-6 lg:mt-0 xl:col-span-6">
-                  <p class="mt-2 text-md text-yellow-600 bg-white rounded p-4">
+                  <p class="mt-2 text-md text-black  rounded p-4">
                     {text}
                   </p>
                 </div>
